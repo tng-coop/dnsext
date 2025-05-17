@@ -70,6 +70,7 @@ test-suite spec
         FastStreamSpec
         ProtocolBufferSpec
         SchemaSpec
+        NegativeCacheSpec
 
     default-language:   Haskell2010
     ghc-options:        -Wall -threaded -with-rtsopts=-N

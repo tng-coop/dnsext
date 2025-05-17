@@ -307,7 +307,9 @@ lookupEither now dom typ cls cache = lookupAlive now result dom typ cls cache
     wsoa_ ttl rank soaDom nrrs = do
         (soa, srank) <- lookupAlive now (soaResult ttl soaDom) soaDom SOA DNS.IN cache {- EMPTY hit. empty ranking and SOA result. -}
         Just (Left (soa ++ [nrr | (nrr, _) <- nrrs], srank), rank)
-    nsoa_ rank _rc = Just (Left ([], RankAdditional {- FIXME, dummy rank value for no-SOA -}), rank)
+    nsoa_ rank _rc =
+        let r = if rank > RankAdditional then RankAdditional else rank
+         in Just (Left ([], r), r)
     soaResult ettl srcDom ttl crs rank =
         Just (extractRRSet srcDom SOA DNS.IN (ettl `min` ttl {- treated as TTL of empty data -}) crs, rank)
 {- FOURMOLU_ENABLE -}
